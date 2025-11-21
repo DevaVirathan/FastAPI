@@ -6,3 +6,4 @@ requests
 pydantic-settings
 alembic
 pymysql
+pre-commit
