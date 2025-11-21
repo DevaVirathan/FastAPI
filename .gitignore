@@ -1,0 +1,27 @@
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+FastAPIvenv
+
+# Environment variables
+.env
+
+# Cache
+.cache/
+.mypy_cache/
+pytest_cache/
+
+
+# Logs
+*.log
+
+# OS
+.DS_Store
+Thumbs.db
+
+# IDE metadata
+.vscode/
+.idea/
+*.iml
