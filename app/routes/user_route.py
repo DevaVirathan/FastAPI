@@ -8,11 +8,11 @@ from typing import List
 router = APIRouter(prefix="/users", tags=["Users"])
 
 
-@router.get("/", response_model=List[UserResponse])
+@router.get("/", response_model=List[UserResponse], summary="List all users")
 def list_users(db: Session = Depends(get_db)):
     return UserService.list_users(db)
 
-@router.get("/{user_id}", response_model=UserResponse)
+@router.get("/{user_id}", response_model=UserResponse, summary="Get a user by ID")
 def get_user_by_id(user_id: int, db: Session = Depends(get_db)):
     user = UserService.get_user_by_id(db, user_id)
     if user is None:
