@@ -2,9 +2,8 @@ from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy.orm import Session
 from app.core.database import get_db
 from app.services.user_service import UserService
-from app.schemas.user_schema import UserCreate, UserResponse
+from app.schemas.user_schema import UserCreate, UserResponse, UserUpdate
 from typing import List
-
 
 router = APIRouter(prefix="/users", tags=["Users"])
 
@@ -25,9 +24,9 @@ def create_user(data: UserCreate, db: Session = Depends(get_db)):
     return UserService.create_user(db, data)
 
 @router.patch("/{user_id}", response_model=UserResponse)
-def update_user(user_id: int, data: UserCreate, db: Session = Depends(get_db)):
+def update_user(user_id: int, data: UserUpdate, db: Session = Depends(get_db)):
     user = UserService.update_user(db, user_id, data)
-    if user is None:
+    if not user:
         raise HTTPException(status_code=404, detail="User not found")
     return user
 

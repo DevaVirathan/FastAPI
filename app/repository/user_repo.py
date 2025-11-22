@@ -1,6 +1,6 @@
 from sqlalchemy.orm import Session
 from app.models.user import User
-from app.schemas.user_schema import UserCreate
+from app.schemas.user_schema import UserCreate, UserUpdate
 
 
 class UserRepository:
@@ -22,14 +22,24 @@ class UserRepository:
         return new_user
 
     @staticmethod
-    def update(db: Session, user_id: int, data: UserCreate):
+    def update(db: Session, user_id: int, data: UserUpdate):
         user = db.query(User).filter(User.id == user_id).first()
-        if user:
-            for key, value in data.dict().items():
-                setattr(user, key, value)
+        if not user:
+            return None
+
+        update_data = data.dict(exclude_unset=True)  
+        for key, value in update_data.items():
+            setattr(user, key, value)
+
+        try:
             db.commit()
             db.refresh(user)
+        except Exception:
+            db.rollback()
+            raise
+
         return user
+
     @staticmethod
     def delete(db: Session, user_id: int):
         user = db.query(User).filter(User.id == user_id).first()

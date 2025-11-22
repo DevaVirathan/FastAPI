@@ -1,6 +1,6 @@
 from sqlalchemy.orm import Session
 from app.repository.user_repo import UserRepository
-from app.schemas.user_schema import UserCreate
+from app.schemas.user_schema import UserCreate, UserUpdate
 
 
 class UserService:
@@ -13,11 +13,12 @@ class UserService:
 
     @staticmethod
     def create_user(db: Session, data: UserCreate):
-        return UserRepository.create(db, data)
+        return UserRepository.update(db, data)
     
     @staticmethod
-    def update_user(db: Session, user_id: int, data: UserCreate):
+    def update_user(db: Session, user_id: int, data: UserUpdate):
         return UserRepository.update(db, user_id, data)
+
 
     @staticmethod
     def delete_user(db: Session, user_id: int):
